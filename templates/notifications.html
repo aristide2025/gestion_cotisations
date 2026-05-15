@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Notifications envoyées{% endblock %}
+
+{% block content %}
+<h1>🔔 Notifications envoyées</h1>
+
+<a href="/notifications/envoyer" class="btn btn-success">+ Envoyer une notification</a>
+
+<br><br>
+<table>
+    <thead>
+        <tr>
+            <th>Titre</th>
+            <th>Message</th>
+            <th>Type</th>
+            <th>Destinataire</th>
+            <th>Date d'envoi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for n in notifications %}
+        <tr>
+            <td>{{ n[0] }}</td>
+            <td>{{ n[1] }}</td>
+            <td>
+                {% if n[2] == 'general' %}
+                    📢 Général
+                {% else %}
+                    👤 Personnel
+                {% endif %}
+            </td>
+            <td>
+                {% if n[3] %}
+                    {{ n[3] }} {{ n[4] }}
+                {% else %}
+                    Tous les membres
+                {% endif %}
+            </td>
+            <td>{{ n[5] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

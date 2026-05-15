@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Envoyer une notification{% endblock %}
+
+{% block content %}
+<h1>🔔 Envoyer une notification</h1>
+<a href="/notifications" class="btn btn-primary">← Retour</a>
+<br><br>
+
+<form method="POST" action="/notifications/envoyer">
+
+    <label>Titre :</label>
+    <input type="text" name="titre" required>
+
+    <label>Message :</label>
+    <textarea name="message" rows="5" 
+        style="width:100%; padding:9px 12px; border:1px solid #ddd; border-radius:6px; font-size:14px; margin-bottom:15px;"
+        required></textarea>
+
+    <label>Type de notification :</label>
+    <select name="type_notif" id="type_notif" required onchange="toggleMembre()">
+        <option value="general">📢 Communiqué général (tous les membres)</option>
+        <option value="personnel">👤 Notification personnelle (un membre)</option>
+    </select>
+
+    <div id="choix_membre" style="display:none;">
+        <label>Choisir le membre :</label>
+        <select name="membre_id">
+            <option value="">-- Choisir un membre --</option>
+            {% for m in membres %}
+            <option value="{{ m[0] }}">{{ m[1] }} {{ m[2] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Envoyer</button>
+
+</form>
+
+<script>
+function toggleMembre() {
+    const type = document.getElementById('type_notif').value;
+    const div  = document.getElementById('choix_membre');
+    div.style.display = type === 'personnel' ? 'block' : 'none';
+}
+</script>
+
+{% endblock %}

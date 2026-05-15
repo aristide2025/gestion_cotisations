@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Liste des pénalités{% endblock %}
+
+{% block content %}
+<h1>Liste des pénalités</h1>
+
+<a href="/penalites/ajouter" class="btn btn-success">+ Ajouter une pénalité</a>
+<a href="/penalites/pdf" class="btn btn-danger">📄 Exporter en PDF</a>
+<br><br>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Période</th>
+            <th>Montant (FCFA)</th>
+            <th>Motif</th>
+            <th>Date d'application</th>
+            <th>Statut</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pe in penalites %}
+        <tr>
+            <td>{{ pe[0] }}</td>
+            <td>{{ pe[1] }}</td>
+            <td>{{ pe[2] }}</td>
+            <td>{{ pe[3] }}</td>
+            <td>{{ pe[4] }}</td>
+            <td>{{ pe[5] }}</td>
+            <td>
+                {% if pe[6] == 'payée' %}
+                    ✅ payée
+                {% else %}
+                    ❌ impayée
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

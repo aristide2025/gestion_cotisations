@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Statistiques de la caisse{% endblock %}
+
+{% block content %}
+<h1>Statistiques de la caisse</h1>
+<a href="/caisse/pdf" class="btn btn-danger">📄 Exporter en PDF</a>
+<a href="/notifications">Notifications</a>
+<br><br>
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Période</th>
+            <th>Total attendu (FCFA)</th>
+            <th>Total collecté (FCFA)</th>
+            <th>Manque à gagner (FCFA)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in stats %}
+        <tr>
+            <td>{{ s[0] }}</td>
+            <td>{{ s[1] }}</td>
+            <td>{{ s[2] }}</td>
+            <td>
+                {% if s[3] == 0 %}
+                    ✅ 0
+                {% else %}
+                    ❌ {{ s[3] }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

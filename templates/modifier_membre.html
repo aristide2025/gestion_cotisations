@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Modifier un membre{% endblock %}
+
+{% block content %}
+<h1>Modifier un membre</h1>
+<a href="/membres" class="btn btn-primary">← Retour</a>
+<br><br>
+
+<form method="POST" action="/membres/modifier/{{ membre[0] }}">
+
+    <label>Nom :</label>
+    <input type="text" name="nom" value="{{ membre[1] }}" required>
+
+    <label>Prénom :</label>
+    <input type="text" name="prenom" value="{{ membre[2] }}" required>
+
+    <label>Sexe :</label>
+    <select name="sexe" required>
+        <option value="M" {% if membre[3] == 'M' %}selected{% endif %}>Masculin</option>
+        <option value="F" {% if membre[3] == 'F' %}selected{% endif %}>Féminin</option>
+    </select>
+
+    <label>Date de naissance :</label>
+    <input type="date" name="date_naissance" value="{{ membre[4] }}" required>
+
+    <label>Lieu de résidence :</label>
+    <input type="text" name="lieu_residence" value="{{ membre[5] }}">
+
+    <label>Téléphone :</label>
+    <input type="text" name="telephone" value="{{ membre[6] }}">
+
+    <label>Email :</label>
+    <input type="email" name="email" value="{{ membre[8] }}">
+
+    <label>Mot de passe :</label>
+    <input type="password" name="mot_de_passe" placeholder="Laisser vide pour ne pas changer">
+
+    <button type="submit" class="btn btn-warning">Enregistrer les modifications</button>
+
+</form>
+{% endblock %}

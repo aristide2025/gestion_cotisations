@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Ajouter un paiement{% endblock %}
+
+{% block content %}
+<h1>Ajouter un paiement</h1>
+<a href="/paiements" class="btn btn-primary">← Retour</a>
+<br><br>
+
+<form method="POST" action="/paiements/ajouter">
+
+    <label>Membre :</label>
+    <select name="membre_id" required>
+        <option value="">-- Choisir un membre --</option>
+        {% for m in membres %}
+        <option value="{{ m[0] }}">{{ m[1] }} {{ m[2] }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Période :</label>
+    <select name="periode_id" required>
+        <option value="">-- Choisir une période --</option>
+        {% for p in periodes %}
+        <option value="{{ p[0] }}">{{ p[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Montant payé (FCFA) :</label>
+    <input type="number" name="montant_paye" min="0" required>
+
+    <label>Date de paiement :</label>
+    <input type="date" name="date_paiement" required>
+
+    <label>Statut :</label>
+    <select name="statut" required>
+        <option value="payé">✅ Payé</option>
+        <option value="partiel">⚠️ Partiel</option>
+        <option value="impayé">❌ Impayé</option>
+    </select>
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+
+</form>
+{% endblock %}

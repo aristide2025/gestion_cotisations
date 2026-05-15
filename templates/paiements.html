@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Liste des paiements{% endblock %}
+
+{% block content %}
+<h1>Liste des paiements</h1>
+
+<a href="/paiements/ajouter" class="btn btn-success">+ Ajouter un paiement</a>
+<a href="/paiements/pdf" class="btn btn-danger">📄 Exporter en PDF</a>
+<br><br>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Période</th>
+            <th>Montant payé (FCFA)</th>
+            <th>Date de paiement</th>
+            <th>Statut</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in paiements %}
+        <tr>
+            <td>{{ p[0] }}</td>
+            <td>{{ p[1] }}</td>
+            <td>{{ p[2] }}</td>
+            <td>{{ p[3] }}</td>
+            <td>{{ p[4] }}</td>
+            <td>
+                {% if p[5] == 'payé' %}
+                    ✅ payé
+                {% elif p[5] == 'partiel' %}
+                    ⚠️ partiel
+                {% else %}
+                    ❌ impayé
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

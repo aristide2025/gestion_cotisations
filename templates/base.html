@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Gestion des cotisations{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: 10px 15px; text-align: left; }
+        thead { background-color: #2c3e50; color: white; }
+        tbody tr:hover { background-color: #f0f4f8; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <span class="brand">🏦 Association</span>
+
+        {% if session.get('role') == 'gestionnaire' %}
+            <!-- Menu gestionnaire -->
+            <a href="/">Tableau de bord</a>
+            <a href="/membres">Membres</a>
+            <a href="/paiements">Paiements</a>
+            <a href="/penalites">Pénalités</a>
+            <a href="/caisse">Caisse</a>
+            <a href="/notifications">Notifications</a>
+
+        {% elif session.get('role') == 'membre' %}
+            <!-- Menu membre -->
+            <a href="/espace-membre">Mon espace</a>
+
+        {% endif %}
+
+        <a href="/logout" style="margin-left:auto; color:#e74c3c;">🚪 Déconnexion</a>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

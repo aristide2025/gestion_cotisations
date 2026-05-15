@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+<h1>Tableau de bord</h1>
+
+<!-- Cartes -->
+<div class="cards">
+    <div class="card bleu">
+        <h3>Membres</h3>
+        <p>{{ nb_membres }}</p>
+    </div>
+    <div class="card vert">
+        <h3>Total collecté</h3>
+        <p>{{ total_collecte }} FCFA</p>
+    </div>
+    <div class="card rouge">
+        <h3>Impayés</h3>
+        <p>{{ nb_impayes }}</p>
+    </div>
+    <div class="card orange">
+        <h3>Pénalités impayées</h3>
+        <p>{{ nb_penalites }}</p>
+    </div>
+</div>
+
+<!-- Bouton génération automatique -->
+<form method="POST" action="/penalites/generer">
+    <button type="submit" class="btn btn-warning">
+        ⚡ Générer les pénalités automatiquement
+    </button>
+</form>
+
+<br><br>
+
+<!-- Graphiques -->
+<div style="display: flex; gap: 30px; flex-wrap: wrap;">
+
+    <!-- Graphique en barres -->
+    <div style="flex: 2; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+        <h3 style="margin-bottom: 15px; color: #2c3e50;">Collecte par période</h3>
+        <canvas id="graphBarres"></canvas>
+    </div>
+
+    <!-- Graphique camembert -->
+    <div style="flex: 1; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+        <h3 style="margin-bottom: 15px; color: #2c3e50;">Répartition des statuts</h3>
+        <canvas id="graphCamembert"></canvas>
+    </div>
+
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Données depuis Flask
+    const periodes = {{ stats_periodes | tojson }};
+    const statuts  = {{ stats_statuts  | tojson }};
+
+    // Graphique en barres
+    new Chart(document.getElementById('graphBarres'), {
+        type: 'bar',
+        data: {
+            labels: periodes.map(p => p[0]),
+            datasets: [
+                {
+                    label: 'Total attendu (FCFA)',
+                    data: periodes.map(p => p[1]),
+                    backgroundColor: '#2980b9'
+                },
+                {
+                    label: 'Total collecté (FCFA)',
+                    data: periodes.map(p => p[2]),
+                    backgroundColor: '#27ae60'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'top' } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    // Graphique camembert
+    new Chart(document.getElementById('graphCamembert'), {
+        type: 'doughnut',
+        data: {
+            labels: statuts.map(s => s[0]),
+            datasets: [{
+                data: statuts.map(s => s[1]),
+                backgroundColor: ['#27ae60', '#f39c12', '#e74c3c']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+</script>
+
+{% endblock %}

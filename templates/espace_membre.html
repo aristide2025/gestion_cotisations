@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block title %}Mon espace{% endblock %}
+
+{% block content %}
+<h1>👤 Bienvenue {{ session['username'] }}</h1>
+
+<br>
+
+<!-- Infos personnelles -->
+<div style="background:white; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:25px;">
+    <h2 style="color:#2c3e50; margin-bottom:15px;">Mes informations</h2>
+    <p><strong>Nom :</strong> {{ membre[0] }} {{ membre[1] }}</p>
+    <p><strong>Sexe :</strong> {{ membre[2] }}</p>
+    <p><strong>Âge :</strong> {{ membre[3] | int }} ans</p>
+    <p><strong>Résidence :</strong> {{ membre[4] }}</p>
+    <p><strong>Téléphone :</strong> {{ membre[5] }}</p>
+    <p><strong>Date d'adhésion :</strong> {{ membre[6] }}</p>
+</div>
+
+<!-- Notifications -->
+<div style="background:white; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:25px;">
+    <h2 style="color:#2c3e50; margin-bottom:15px;">🔔 Mes notifications</h2>
+    {% if notifications %}
+        {% for n in notifications %}
+        <div style="border-left:4px solid #2980b9; padding:10px 15px; margin-bottom:10px; background:#f4f6f9; border-radius:5px;">
+            <strong>{{ n[0] }}</strong>
+            <span style="font-size:12px; color:#888; float:right;">{{ n[2] }}</span>
+            <p style="margin-top:5px; color:#555;">{{ n[1] }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="color:#888;">Aucune notification pour le moment.</p>
+    {% endif %}
+</div>
+
+<!-- Mes paiements -->
+<div style="background:white; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); margin-bottom:25px;">
+    <h2 style="color:#2c3e50; margin-bottom:15px;">💰 Mes paiements</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Période</th>
+                <th>Montant payé (FCFA)</th>
+                <th>Date</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in paiements %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td>{{ p[1] }}</td>
+                <td>{{ p[2] }}</td>
+                <td>
+                    {% if p[3] == 'payé' %}
+                        ✅ payé
+                    {% elif p[3] == 'partiel' %}
+                        ⚠️ partiel
+                    {% else %}
+                        ❌ impayé
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Mes pénalités -->
+<div style="background:white; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+    <h2 style="color:#2c3e50; margin-bottom:15px;">⚠️ Mes pénalités</h2>
+    {% if penalites %}
+    <table>
+        <thead>
+            <tr>
+                <th>Période</th>
+                <th>Montant (FCFA)</th>
+                <th>Motif</th>
+                <th>Date</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pe in penalites %}
+            <tr>
+                <td>{{ pe[0] }}</td>
+                <td>{{ pe[1] }}</td>
+                <td>{{ pe[2] }}</td>
+                <td>{{ pe[3] }}</td>
+                <td>
+                    {% if pe[4] == 'payée' %}
+                        ✅ payée
+                    {% else %}
+                        ❌ impayée
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p style="color:#888;">Aucune pénalité. Continuez comme ça ! 👍</p>
+    {% endif %}
+</div>
+
+{% endblock %}

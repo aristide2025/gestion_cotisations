@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Ajouter une pénalité{% endblock %}
+
+{% block content %}
+<h1>Ajouter une pénalité</h1>
+<a href="/penalites" class="btn btn-primary">← Retour</a>
+<br><br>
+
+<form method="POST" action="/penalites/ajouter">
+
+    <label>Membre :</label>
+    <select name="membre_id" required>
+        <option value="">-- Choisir un membre --</option>
+        {% for m in membres %}
+        <option value="{{ m[0] }}">{{ m[1] }} {{ m[2] }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Période :</label>
+    <select name="periode_id" required>
+        <option value="">-- Choisir une période --</option>
+        {% for p in periodes %}
+        <option value="{{ p[0] }}">{{ p[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Montant de la pénalité (FCFA) :</label>
+    <input type="number" name="montant_penalite" min="0" required>
+
+    <label>Motif :</label>
+    <input type="text" name="motif" value="Retard de paiement">
+
+    <label>Date d'application :</label>
+    <input type="date" name="date_application" required>
+
+    <label>Statut :</label>
+    <select name="statut" required>
+        <option value="impayée">❌ Impayée</option>
+        <option value="payée">✅ Payée</option>
+    </select>
+
+    <button type="submit" class="btn btn-success">Enregistrer</button>
+
+</form>
+{% endblock %}

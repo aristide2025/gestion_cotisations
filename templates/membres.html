@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Liste des membres{% endblock %}
+
+{% block content %}
+<h1>Liste des membres</h1>
+
+<a href="/membres/ajouter" class="btn btn-success">+ Ajouter un membre</a>
+<a href="/membres/pdf" class="btn btn-danger">📄 Exporter en PDF</a>
+
+<br><br>
+<table>
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Sexe</th>
+            <th>Âge</th>
+            <th>Lieu de résidence</th>
+            <th>Téléphone</th>
+            <th>Email</th>
+            <th>Date d'adhésion</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    
+  <tbody>
+    {% for m in membres %}
+    <tr>
+        <td>{{ m[1] }}</td>
+        <td>{{ m[2] }}</td>
+        <td>{{ m[3] }}</td>
+        <td>{{ m[4] | int }} ans</td>
+        <td>{{ m[5] }}</td>
+        <td>{{ m[6] }}</td>
+        <td>{{ m[8] if m[8] else '—' }}</td>
+        <td>{{ m[7] }}</td>
+        <td>
+            <a href="/membres/modifier/{{ m[0] }}" class="btn btn-warning">✏️ Modifier</a>
+            <form method="POST" action="/membres/supprimer/{{ m[0] }}" style="display:inline;">
+                <button type="submit" class="btn btn-danger"
+                    onclick="return confirm('Supprimer ce membre ?')">
+                    🗑️ Supprimer
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>          
+
+
+</table>
+{% endblock %}
